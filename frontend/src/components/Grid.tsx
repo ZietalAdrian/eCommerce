@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import ProductThumb from "./ProductThumb";
 
-const Grid = () => {
+interface GridProps {
+  setCartItems: (item: string[]) => void;
+}
+
+const Grid: FC<GridProps> = ({ setCartItems }) => {
   const [grid, setGrid] = useState([]);
 
   const fetchAllProducts = async () => {
@@ -21,15 +25,15 @@ const Grid = () => {
   return (
     <div className="grid grid-cols-3 place-items-center">
       {grid &&
-        grid.map((item, index) => {
-          const { _id, title, description, price } = item;
+        grid.map((item) => {
+          const { _id, title, price } = item;
           return (
             <ProductThumb
               id={_id}
               key={_id}
               title={title}
-              description={description}
               price={price}
+              setCartItems={setCartItems}
             />
           );
         })}
