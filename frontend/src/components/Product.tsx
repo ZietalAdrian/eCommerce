@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const Product = () => {
+const Product = ({ getId }: { getId: (id: string) => void }) => {
   const [product, setProduct] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -41,16 +41,20 @@ const Product = () => {
                 <h2 className="text-base mb-4">{product.description}</h2>
                 <h3 className="text-xs">ID: {id}</h3>
                 <h2 className="text-xl absolute bottom-28 pl-1">
-                  $ {product.price}
+                  ${product.price}
                 </h2>
-                <button className="text-xl absolute bottom-14 bg-gray-200 w-[200px] py-1">
-                  Add to Cart</button>
+                <button
+                  onClick={() => id && getId(id)}
+                  className="text-xl absolute bottom-14 bg-gray-200 w-[200px] py-1"
+                >
+                  Add to Cart
+                </button>
               </div>
             </article>
           ) : (
             <div>
               <h1 className="text-3xl text-center mt-[200px]">
-                Produkt o podanym ID nie istnieje
+                The product with the given ID does not exist
               </h1>
             </div>
           )}

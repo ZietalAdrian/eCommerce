@@ -1,17 +1,43 @@
+import { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import { FaShoppingBag } from "react-icons/fa";
+
 import Grid from "./components/Grid";
 import Home from "./components/Home";
 import Product from "./components/Product";
 import NotFound from "./components/NotFound";
-import { Routes, Route, Link } from "react-router-dom";
-import { FaShoppingBag } from "react-icons/fa";
-import { useState } from "react";
+import ShoppingCart from "./components/ShoppingCart";
+import axios from "axios";
+
+type User = {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+};
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState(false);
-  const [cartItems, setCartItems] = useState<string[]>([]);
+  const [userCart, setUserCart] = useState<User[]>([]);
+
+  const isFoundProduct = (id: any) => {
+    const res = userCart.find((item: any) => {
+      return item._id === id;
+    });
+    return res;
+  };
+
+  const getId = async (id: string) => {
+    if (isFoundProduct(id)) {
+      console.log("This product is already in the shopping cart");
+    } else {
+      const res = await axios.get("http://localhost:3001/products/" + id);
+      res && setUserCart((prev: any) => [...prev, res.data]);
+    }
+  };
 
   return (
-    <div className="h-screen">
+    <div className="pb-32">
       <nav className="mb-10">
         <div className="h-10 flex justify-end items-center mx-8">
           <button onClick={() => setShoppingCart((prev: boolean) => !prev)}>
@@ -19,7 +45,7 @@ function App() {
           </button>
           <div className="relative">
             {shoppingCart && (
-              <div className="bg-red-500 w-[250px] h-[80vh] absolute -right-3 top-5"></div>
+              <ShoppingCart userCart={userCart} setUserCart={setUserCart} />
             )}
           </div>
         </div>
@@ -38,8 +64,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products">
-            <Route index element={<Grid setCartItems={setCartItems} />} />
-            <Route path=":id" element={<Product />} />
+            <Route index element={<Grid getId={getId} />} />
+            <Route path=":id" element={<Product getId={getId} />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

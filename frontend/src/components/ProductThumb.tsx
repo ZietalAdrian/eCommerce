@@ -5,15 +5,10 @@ interface ProductThumbProps {
   id: string;
   title: string;
   price: number;
-  setCartItems: any;
+  getId: (id: string) => void;
 }
 
-const ProductThumb: FC<ProductThumbProps> = ({
-  id,
-  title,
-  price,
-  setCartItems,
-}) => {
+const ProductThumb: FC<ProductThumbProps> = ({ id, title, price, getId }) => {
   return (
     <article className="w-[300px] p-3 bg-lime-500">
       <Link to={`/products/${id}`} className="w-[200px] cursor-pointer">
@@ -23,10 +18,7 @@ const ProductThumb: FC<ProductThumbProps> = ({
         <div>{title}</div>
         <div>${price}</div>
       </div>
-      <button
-        onClick={() => setCartItems((prev: any[]) => [...prev, id])}
-        className="bg-red-500 w-full mt-1 p-1"
-      >
+      <button onClick={() => getId(id)} className="bg-red-500 w-full mt-1 p-1">
         Add to Cart
       </button>
     </article>

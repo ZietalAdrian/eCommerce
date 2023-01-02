@@ -3,10 +3,10 @@ import axios from "axios";
 import ProductThumb from "./ProductThumb";
 
 interface GridProps {
-  setCartItems: (item: string[]) => void;
+  getId: (id: string) => void;
 }
 
-const Grid: FC<GridProps> = ({ setCartItems }) => {
+const Grid: FC<GridProps> = ({ getId }) => {
   const [grid, setGrid] = useState([]);
 
   const fetchAllProducts = async () => {
@@ -23,7 +23,7 @@ const Grid: FC<GridProps> = ({ setCartItems }) => {
   }, []);
 
   return (
-    <div className="grid grid-cols-3 place-items-center">
+    <div className="grid grid-cols-3 place-items-center gap-10">
       {grid &&
         grid.map((item) => {
           const { _id, title, price } = item;
@@ -33,7 +33,7 @@ const Grid: FC<GridProps> = ({ setCartItems }) => {
               key={_id}
               title={title}
               price={price}
-              setCartItems={setCartItems}
+              getId={getId}
             />
           );
         })}
