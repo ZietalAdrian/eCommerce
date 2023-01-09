@@ -8,27 +8,17 @@ Starting with the Backend
 
 Frontend is makeshift
 
----
-
 ## Technologies used:
 
-### Frontend:
+### Frontend:                                                 ### Backend:
 
-- React
-- React Router
-- Tailwind
-
-### Backend:
-
-- Node.js
-- Express.js
-- MongoDB
+- React                                                       - Node.js
+- React Router                                                - Express.js
+- Tailwind                                                    - MongoDB
 
 ### Also:
 
 - Typescript
-
----
 
 ## Key:
 
@@ -36,8 +26,6 @@ Frontend is makeshift
 - 🏗️ In progress
 - 🛠️ To Fix / Correct
 - ⌛ Soon
-
----
 
 ## Features:
 
