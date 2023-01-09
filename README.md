@@ -10,11 +10,17 @@ Frontend is makeshift
 
 ## Technologies used:
 
-### Frontend:                                                 ### Backend:
+### Frontend:
 
-- React                                                       - Node.js
-- React Router                                                - Express.js
-- Tailwind                                                    - MongoDB
+- React
+- React Router
+- Tailwind
+
+### Backend:
+
+- Node.js
+- Express.js
+- MongoDB
 
 ### Also:
 
