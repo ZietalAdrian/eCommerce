@@ -43,9 +43,9 @@ Frontend is makeshift
     - ✅ Remove from cart functionality
 - Database
     - ✅ Products
-    - 🏗️ Users
+    - ✅ Users
 - Security
     - ✅ Password encryption
-    - 🏗️ Authentication
+    - ✅ Authentication
     - 🏗️ Validation schema
     - 🏗️ Mongoose schema

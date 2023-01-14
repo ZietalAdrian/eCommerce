@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import axios from "axios";
-import ProductThumb from "./ProductThumb";
+import ProductThumb from "../ProductThumb";
 
 interface GridProps {
   getId: (id: string) => void;
@@ -23,7 +23,7 @@ const Grid: FC<GridProps> = ({ getId }) => {
   }, []);
 
   return (
-    <div className="grid grid-cols-3 place-items-center gap-10">
+    <div className="grid grid-cols-3 place-items-center gap-10 pb-20">
       {grid &&
         grid.map((item) => {
           const { _id, title, price } = item;

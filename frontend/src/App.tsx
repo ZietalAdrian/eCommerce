@@ -1,26 +1,32 @@
-import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { FaShoppingBag } from "react-icons/fa";
 import axios from "axios";
 
-import Grid from "./components/Grid";
-import Home from "./components/Home";
-import Product from "./components/Product";
-import NotFound from "./components/NotFound";
+import Grid from "./components/pages/Grid";
+import Home from "./components/pages/Home";
+import Product from "./components/pages/Product";
+import NotFound from "./components/pages/NotFound";
 import ShoppingCart from "./components/ShoppingCart";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Login from "./components/pages/Login";
+import Signup from "./components/pages/Signup";
 
-type User = {
+type ProductType = {
   id: string;
   title: string;
   description: string;
   price: number;
 };
 
+type UserType = {
+  _id: string;
+  name: string;
+};
+
 function App() {
   const [shoppingCart, setShoppingCart] = useState(false);
-  const [userCart, setUserCart] = useState<User[]>([]);
+  const [userCart, setUserCart] = useState<ProductType[]>([]);
+  const [user, setUser] = useState<UserType | null>(null);
 
   const isFoundProduct = (id: any) => {
     const res = userCart.find((item: any) => {
@@ -38,18 +44,42 @@ function App() {
     }
   };
 
+  const logout = async () => {
+    axios
+      .get("http://localhost:3001/users/logout")
+      .then((res) => console.log(res.data))
+      .then(() => setUser(null))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   return (
     <div>
       <nav className="mb-10">
         <div className="h-10 flex justify-end items-center mx-8">
-          <ul className="flex pr-5 mr-8 gap-5 border-solid border-r-[1px] border-black">
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
-          </ul>
+          {!user ? (
+            <ul className="flex pr-5 mr-8 gap-5 border-solid border-r-[1px] border-black">
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/signup">Signup</Link>
+              </li>
+            </ul>
+          ) : (
+            <div className="flex justify-end">
+              <div>Welcome {user.name}</div>
+              <button
+                className="mr-8 pr-5 ml-8 border-solid border-r-[1px] border-black"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </div>
+          )}
           <button onClick={() => setShoppingCart((prev: boolean) => !prev)}>
             <FaShoppingBag className="text-xl" />
           </button>
@@ -77,8 +107,16 @@ function App() {
             <Route index element={<Grid getId={getId} />} />
             <Route path=":id" element={<Product getId={getId} />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={
+              user ? <Navigate replace to="/" /> : <Login setUser={setUser} />
+            }
+          />
+          <Route
+            path="/signup"
+            element={user ? <Navigate replace to="/" /> : <Signup />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

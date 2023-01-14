@@ -31,7 +31,7 @@ const Product = ({ getId }: { getId: (id: string) => void }) => {
             <article className="flex justify-center py-[50px] bg-cyan-100">
               <div className="p-10 bg-white">
                 <img
-                  src={require("../images/shoes.jpg")}
+                  src={require("../../images/shoes.jpg")}
                   alt=""
                   className="border-solid border-black border-[1px] p-10"
                 />
